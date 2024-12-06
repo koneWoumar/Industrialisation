@@ -1,0 +1,22 @@
+services:
+  mysql:
+    image: ${REGISTRY}
+    container_name: proverb-front
+    env_file:
+      - .env
+    network_mode: host
+    # volumes:    
+    #   - ${MYSQL_DATA_VOLUME_DIR}:/var/lib/mysql
+    deploy:
+      resources:
+        limits:
+          memory: ${MEM_LIMIT}                       
+        # reservations:
+        #   memory: ${MEM_RESERVATION}                
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -uroot -p{MYSQL_ROOT_PASSWORD} || exit 1"]
+      interval: ${HEALTHCHECK_INTERVAL}
+      timeout: ${HEALTHCHECK_TIMEOUT}
+      retries: ${HEALTHCHECK_RETRIES}
+      start_period: ${HEALTHCHECK_START_PERIOD}
+
